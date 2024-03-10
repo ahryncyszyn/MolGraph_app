@@ -29,7 +29,7 @@ def define_bonds(molecules_db, molecule, atom_coords, max_bond_length=1.6):
             if dist < max_bond_length:
                 molecules_db[molecule].add_bond(atoms[i], atoms[j])
 
-    print(molecules_db[molecule].graph)
+    print(molecules_db[molecule].print_graph)
     return 
 
 def calculate_distance(coords1, coords2):

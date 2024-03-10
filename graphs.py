@@ -40,6 +40,10 @@ class MoleculeGraph:
     def change_name(self, new_name):
         self.name = new_name
 
+    def calculate_mol_mass(self):
+        pass
+        
+
 db = []
 molecule = MoleculeGraph("alanine")
 carbon = Atom("C1", -1, 0, -1)
