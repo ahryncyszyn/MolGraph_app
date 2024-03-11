@@ -1,5 +1,6 @@
-#implemented using dictionary
-#keys are vertices, values are lists of adjacent vertices
+from molecular_masses import molecular_masses
+import re
+
 class Atom:
     def __init__(self, symbol, x, y, z):
         self.symbol = symbol
@@ -7,15 +8,19 @@ class Atom:
         self.y = y
         self.z = z
 
+#graph implemented using a dictionary
+#keys are vertices (atoms), values are lists of adjacent vertices
 class MolecularGraph:
     def __init__(self, name):
         self.name = name
         self.atoms = []
         self.graph = {}
 
+
     def add_atom(self, atom):
         #add a function that appends in order
         self.atoms.append((atom.symbol, (atom.x, atom.y, atom.z)))
+
     
     def add_bond(self, u, v):
         if u not in self.graph:
@@ -25,6 +30,7 @@ class MolecularGraph:
 
         self.graph[u].append(v)
         self.graph[v].append(u)
+
 
     def print_graph(self):
         printed_bonds = set()
@@ -37,16 +43,36 @@ class MolecularGraph:
                     print(vertex, '->', neighbor)
                     printed_bonds.add(bond)
 
+
     def change_name(self, new_name):
         self.name = new_name
 
+
     def calculate_mol_mass(self):
-        pass
+        names = [atom[0] for atom in self.atoms]
+        total_mass = 0
+        pattern = re.compile(r'([a-zA-Z]{1,3})')
         
+        for name in names:
+            match = pattern.match(name)
+            if match:
+                symbol = match.group(1)
+                if symbol in molecular_masses:
+                    total_mass += molecular_masses[symbol]
+                else:
+                    print(f"Unknown element symbol: {symbol}")
+
+        return total_mass
+        
+
+        
+
+
+
 
 db = []
 molecule = MolecularGraph("alanine")
-carbon = Atom("C1", -1, 0, -1)
+carbon = Atom("Hg1", -1, 0, -1)
 carbon2 = Atom("C2", 0, 0, 1)
 oxygen = Atom("O1", -2, 2, 0)
 molecule.add_atom(carbon)
@@ -54,7 +80,7 @@ molecule.add_atom(carbon2)
 molecule.add_atom(oxygen)
 molecule.add_bond("C1", "C2")
 molecule.add_bond("O1", "C1")
-molecule.print_graph()
+print(molecule.calculate_mol_mass())
 
 
 
