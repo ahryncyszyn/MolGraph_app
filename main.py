@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         #set a window title
-        self.setWindowTitle("Welcome to the molecular converter :)")
+        self.setWindowTitle("Welcome to the molecular converter!")
         self.setGeometry(100, 100, 600, 300)
 
         #sets a central widget
@@ -73,8 +73,9 @@ class MainWindow(QMainWindow):
         results = xyz_to_mol_graphs(self.file_paths)
         print(results)
 
-        calculations_window = CalculationsWindow(results)
-        calculations_window.show()
+        self.calculations_window = CalculationsWindow(results)
+        self.calculations_window.show()
+        self.close()
 
 
 app = QApplication([])
