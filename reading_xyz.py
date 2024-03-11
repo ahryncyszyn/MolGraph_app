@@ -43,7 +43,8 @@ def xyz_reading(paths):
 
         for line in infile.readlines():
             elements = line.split()
-            atom = elements[0]
+            if len(elements) >= 1:
+                atom = elements[0]
 
             #an xyz file line containing only the number of atoms means a new molecule 
             if len(elements) == 1:
@@ -107,6 +108,7 @@ def checking_correct_bonds_num(atoms, bonds):
     return True
 
 
-file_path = ['/Users/ahryncyszyn/Desktop/molecular converter app/example_input/alanine.xyz']
+file_path = ['/Users/ahryncyszyn/Desktop/internship_code/orca_test_systems/Radical_Systems/Alanine_Threonine_and_Valine_Valine_rad.xyz']
 molecules_db = xyz_to_mol_graphs(file_path)
-print(molecules_db['alanine1'].atoms)
+for molecule in molecules_db:
+    molecules_db[molecule].plot_molecule()
