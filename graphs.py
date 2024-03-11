@@ -1,4 +1,4 @@
-from elements_data import elements_data
+from molecular_data import molecular_data
 from plotting import plot_molecule
 import re
 
@@ -58,19 +58,17 @@ class MolecularGraph:
             match = pattern.match(name)
             if match:
                 symbol = match.group(1)
-                if symbol in elements_data:
-                    total_mass += elements_data[symbol][0]
+                if symbol in molecular_data:
+                    total_mass += molecular_data[symbol][0]
                 else:
                     print(f"Unknown element symbol: {symbol}")
 
         return total_mass
     
     
-    def visualize(self):
+    def plot_molecule(self):
         plot_molecule(self.atoms, self.graph)
-        
 
-        
 
 db = []
 molecule = MolecularGraph("alanine")
@@ -82,7 +80,7 @@ molecule.add_atom(carbon2)
 molecule.add_atom(oxygen)
 molecule.add_bond("C1", "C2")
 molecule.add_bond("O1", "C1")
-print(molecule.calculate_mol_mass())
+print(molecule.graph)
 
 
 
