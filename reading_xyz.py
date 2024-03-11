@@ -12,7 +12,7 @@ def xyz_to_mol_graphs(path):
     molecules_db = xyz_reading(path)
 
     num_molecules = len(molecules_db)
-    print(num_molecules, " molecules have been imported.")
+    print(num_molecules, " molecule(s) have been imported.")
     
     for molecule in molecules_db:
         atom_coords = molecules_db[molecule].atoms
@@ -63,7 +63,7 @@ def xyz_reading(paths):
                     present_atoms[atom] = 1
 
                 atom_name = atom.capitalize()+str(present_atoms[atom])
-                current_atom = Atom(atom_name, elements[1], elements[2], elements[3])
+                current_atom = Atom(atom_name, float(elements[1]), float(elements[2]), float(elements[3]))
                 molecule.add_atom(current_atom)
                 present_atoms[atom] += 1
         
@@ -107,6 +107,6 @@ def checking_correct_bonds_num(atoms, bonds):
     return True
 
 
-file_path = ['/Users/ahryncyszyn/Desktop/molecular converter app/example_input/alanine.xyz', '/Users/ahryncyszyn/Desktop/molecular converter app/example_input/alanine2.xyz']
+file_path = ['/Users/ahryncyszyn/Desktop/molecular converter app/example_input/alanine.xyz']
 molecules_db = xyz_to_mol_graphs(file_path)
-
+print(molecules_db['alanine1'].atoms)
