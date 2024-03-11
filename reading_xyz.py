@@ -1,7 +1,13 @@
-from graphs import MoleculeGraph, Atom
+from graphs import MolecularGraph, Atom
 import math
 
 def xyz_to_mol_graphs(path):
+    '''
+    creates a database of molecular graphs
+    :path: a list of absolute paths to the input file(s)
+    :return: a dictionary containing the name of the molecule as key
+             and the graph object of that molecule as a value
+    '''
 
     molecules_db = xyz_reading(path)
 
@@ -15,28 +21,15 @@ def xyz_to_mol_graphs(path):
         #if not checking_correct_bonds_num(atoms_all[i], mol_bonds):
         #    raise ValueError("The number of bonds exceeds the expected limit. Please adjust the bond lenght limit")
         
-    return 
+    return molecules_db
 
-#assume atoms and coords are a list for one molecule
-def define_bonds(molecules_db, molecule, atom_coords, max_bond_length=1.6):
-    num_atoms = len(atom_coords)
-    coords = [i[1] for i in atom_coords]
-    atoms = [i[0] for i in atom_coords]
 
-    for i in range(num_atoms):
-        for j in range(i+1, num_atoms):
-            dist = calculate_distance(coords[i], coords[j])
-            if dist < max_bond_length:
-                molecules_db[molecule].add_bond(atoms[i], atoms[j])
-
-    print(molecules_db[molecule].print_graph)
-    return 
-
-def calculate_distance(coords1, coords2):
-    return math.sqrt( sum( (float(coords1[k]) - float(coords2[k]))**2 for k in range(3) ))
-
-#takes in a list of absolute paths
 def xyz_reading(paths):
+    '''
+    converts the .xyz file(s) into a MolecularGraph object for each molecule
+    accounts for the cases where one file contains multiple molecules
+    :paths: a list of absolute paths to the .xyz file(s)
+    '''
 
     #dictionary stores the names of all created objects (molecules)
     molecules_db = {}
@@ -60,7 +53,7 @@ def xyz_reading(paths):
                 name_counter += 1
 
                 #create the molecule object and store it in a dictionary
-                molecule = MoleculeGraph(temp_name)
+                molecule = MolecularGraph(temp_name)
                 molecules_db[temp_name] = molecule
                 
             #reads out the chemical composition of the molecule
@@ -75,6 +68,38 @@ def xyz_reading(paths):
                 present_atoms[atom] += 1
         
     return molecules_db
+
+
+#assume atoms and coords are a list for one molecule
+def define_bonds(molecules_db, molecule, atom_coords, max_bond_length=1.6):
+    ''' 
+    finds bonds based on the max_bond_length threshold and adds them to the graph object
+    :molecules_db: dictionary storing the molecular graph objects and their names as keys
+    :molecule: the name of the molecule, key to the molecules_db
+    :atom_coords: the .atom attribute of MoleculeGraph object, 
+                  a list of tuples containing the atom and its coordinates 
+    '''
+    num_atoms = len(atom_coords)
+    coords = [i[1] for i in atom_coords]
+    atoms = [i[0] for i in atom_coords]
+
+    for i in range(num_atoms):
+        for j in range(i+1, num_atoms):
+            dist = calculate_distance(coords[i], coords[j])
+            if dist < max_bond_length:
+                molecules_db[molecule].add_bond(atoms[i], atoms[j])
+
+    return 
+
+
+def calculate_distance(coords1, coords2):
+    ''' 
+    calculates the 3D Euclidean distance between two atoms
+    :coords1: coordinates in 3D of the first atom
+    :coords2: coordinates in 3D of the second atom
+    '''
+    return math.sqrt( sum( (float(coords1[k]) - float(coords2[k]))**2 for k in range(3) ))
+
 
 def checking_correct_bonds_num(atoms, bonds):
     num_bonds = len(bonds)
