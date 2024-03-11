@@ -400,3 +400,5 @@ FodyWeavers.xsd
 #macOS specific
 .DS_Store
 .DS_Store
+project_plan.ipynb
+myenv/
