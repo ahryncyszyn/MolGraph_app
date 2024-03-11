@@ -1,4 +1,4 @@
-element_data = {
+molecular_data = {
     'H': (1.008, 'Hydrogen'),
     'He': (4.0026, 'Helium'),
     'Li': (6.94, 'Lithium'),
