@@ -27,7 +27,7 @@ def plot_molecule(atoms, bonds):
         ax.scatter(atom[1][0], atom[1][1], atom[1][2], 
                 label=element_name, 
                 color=color_map.get(atom_types[i], 'black'), 
-                edgecolors='black', s=500, alpha=0.5)
+                edgecolors='black', s=200, alpha=0.5)
         
         ax.text(atom[1][0], atom[1][1], atom[1][2], atom[0], 
                 color='black', 
