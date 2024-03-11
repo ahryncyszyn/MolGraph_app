@@ -7,7 +7,7 @@ class Atom:
         self.y = y
         self.z = z
 
-class MoleculeGraph:
+class MolecularGraph:
     def __init__(self, name):
         self.name = name
         self.atoms = []
@@ -45,7 +45,7 @@ class MoleculeGraph:
         
 
 db = []
-molecule = MoleculeGraph("alanine")
+molecule = MolecularGraph("alanine")
 carbon = Atom("C1", -1, 0, -1)
 carbon2 = Atom("C2", 0, 0, 1)
 oxygen = Atom("O1", -2, 2, 0)
