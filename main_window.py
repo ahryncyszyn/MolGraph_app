@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QSizePolicy, QMainWindow, QMessageBox, QPushButton, QWidget, QVBoxLayout, QFileDialog, QLabel
 import PyQt5.QtGui as qtg
 from PyQt5.QtCore import Qt
-import sys
 
 from instructions_window import InstructionsWindow
 from calculations_window import CalculationsWindow
