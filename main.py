@@ -3,9 +3,9 @@ from PyQt5.QtWidgets import \
 import PyQt5.QtGui as qtg
 from PyQt5.QtCore import Qt
 
-from instructions_window import InstructionsWindow
-from calculations_window import CalculationsWindow
-from reading_xyz import xyz_to_mol_graphs
+from src.instructions_window import InstructionsWindow
+from src.calculations_window import CalculationsWindow
+from src.reading_xyz import xyz_to_mol_graphs
 
 class MainWindow(QMainWindow):
     def __init__(self):
