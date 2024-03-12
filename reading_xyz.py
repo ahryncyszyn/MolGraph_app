@@ -49,8 +49,9 @@ def xyz_reading(paths):
             #an xyz file line containing only the number of atoms means a new molecule 
             if len(elements) == 1:
                 present_atoms = {}
-
-                temp_name = name+str(name_counter)
+                
+                #add numbers to the name only if there are more than one molecule in a file
+                temp_name = name if name_counter==1 else name+str(name_counter)
                 name_counter += 1
 
                 #create the molecule object and store it in a dictionary
@@ -107,8 +108,9 @@ def checking_correct_bonds_num(atoms, bonds):
     #adjust the maximum number of bonds per atoms
     return True
 
-
+'''
 file_path = ['/Users/ahryncyszyn/Desktop/internship_code/orca_test_systems/Radical_Systems/Alanine_Threonine_and_Valine_Valine_rad.xyz']
 molecules_db = xyz_to_mol_graphs(file_path)
 for molecule in molecules_db:
     molecules_db[molecule].plot_molecule()
+'''
