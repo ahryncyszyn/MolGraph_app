@@ -399,6 +399,7 @@ FodyWeavers.xsd
 
 #macOS specific
 .DS_Store
-.DS_Store
 project_plan.ipynb
 myenv/
+.vscode/launch.json
+frontend/pyqt5_testing.py
