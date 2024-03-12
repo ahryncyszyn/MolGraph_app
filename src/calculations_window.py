@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import \
     QMainWindow, QGridLayout, QComboBox, QPushButton, QWidget, QSizePolicy, QLabel
 import PyQt5.QtGui as qtg
 from PyQt5.QtCore import Qt
-import reading_xyz as xyz
+import src.reading_xyz as xyz
 
 class CalculationsWindow(QMainWindow):
     def __init__(self, results, main_window):

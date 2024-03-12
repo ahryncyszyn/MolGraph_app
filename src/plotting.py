@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import re
-from molecular_data import molecular_data
+from utils.molecular_data import molecular_data
 
 def plot_molecule(atoms, bonds):
     '''

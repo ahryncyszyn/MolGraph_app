@@ -1,4 +1,4 @@
-from graphs import MolecularGraph, Atom
+from src.graphs import MolecularGraph, Atom
 import math
 
 def xyz_to_mol_graphs(path):
