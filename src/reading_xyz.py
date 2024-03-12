@@ -1,4 +1,4 @@
-from graphs import MolecularGraph, Atom
+from src.graphs import MolecularGraph, Atom
 import math
 
 def xyz_to_mol_graphs(path):
@@ -47,7 +47,7 @@ def xyz_reading(paths):
                 atom = elements[0]
 
             #an xyz file line containing only the number of atoms means a new molecule 
-            if len(elements) == 1:
+            if len(elements) == 1 and str(elements[0]).isnumeric():
                 present_atoms = {}
                 
                 #add numbers to the name only if there are more than one molecule in a file

@@ -1,5 +1,5 @@
-from molecular_data import molecular_data
-from plotting import plot_molecule
+from utils.molecular_data import molecular_data
+from src.plotting import plot_molecule
 import re
 
 class Atom:
