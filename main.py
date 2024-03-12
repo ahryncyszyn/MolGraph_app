@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QSizePolicy, QMainWindow, QMessageBox, QPushButton, QWidget, QVBoxLayout, QFileDialog, QLabel
+from PyQt5.QtWidgets import \
+      QApplication, QSizePolicy, QMainWindow, QMessageBox, QPushButton, QWidget, QVBoxLayout, QFileDialog, QLabel
 import PyQt5.QtGui as qtg
 from PyQt5.QtCore import Qt
 
@@ -28,7 +29,7 @@ class MainWindow(QMainWindow):
         #create a welcome label
         welcome_label = QLabel("Please load the data :)")
         welcome_label.setAlignment(Qt.AlignCenter)
-        welcome_label.setFont(qtg.QFont('Helvetica', 20))
+        welcome_label.setFont(qtg.QFont('SF Pro', 20))
         self.layout.addWidget(welcome_label)   
 
         #help pop-up window
@@ -38,7 +39,7 @@ class MainWindow(QMainWindow):
 
         #open a file browser window
         self.file_paths = None
-        self.fileOpenButton = QPushButton('Click to browse files', self)
+        self.fileOpenButton = QPushButton('Choose file(s)', self)
         self.layout.addWidget(self.fileOpenButton)
         self.fileOpenButton.clicked.connect(self.select_the_files)
     
@@ -73,7 +74,7 @@ class MainWindow(QMainWindow):
         results = xyz_to_mol_graphs(self.file_paths)
         print(results)
 
-        self.calculations_window = CalculationsWindow(results)
+        self.calculations_window = CalculationsWindow(results, self)
         self.calculations_window.show()
         self.close()
 
