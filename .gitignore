@@ -397,5 +397,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-#macOS specifi
+#macOS specific
 .DS_Store
+project_plan.ipynb
+myenv/
+.vscode/launch.json
+frontend/pyqt5_testing.py

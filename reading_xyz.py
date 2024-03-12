@@ -1,59 +1,62 @@
-#from graphs import MoleculeGraph
+from graphs import MolecularGraph, Atom
 import math
-import os
-import shutil
 
 def xyz_to_mol_graphs(path):
+    '''
+    creates a database of molecular graphs
+    :path: a list of absolute paths to the input file(s)
+    :return: a dictionary containing the name of the molecule as key
+             and the graph object of that molecule as a value
+    '''
 
-    names_all, atoms_all, coords_all = xyz_reading(path)
+    molecules_db = xyz_reading(path)
 
-    #sanity check
-    #assert len(atoms) == len(coords), 'numbers of atoms and coordinate sets do not agree'
-
-    num_molecules = len(atoms_all)
-    print(atoms_all)
-    print(atoms_all[0])
-    bonds_all = []
+    num_molecules = len(molecules_db)
+    print(num_molecules, " molecule(s) have been imported.")
     
-    for i in range(num_molecules):
-        mol_bonds = find_bonds(atoms_all[i], coords_all[i])
+    for molecule in molecules_db:
+        atom_coords = molecules_db[molecule].atoms
+        define_bonds(molecules_db, molecule, atom_coords)
 
-        if not checking_correct_bonds_num(atoms_all[i], mol_bonds):
-            raise ValueError("The number of bonds exceeds the expected limit. Please adjust the bond lenght limit")
-        else:
-            bonds_all.append([mol_bonds])
-
-
-
-    return names_all, atoms_all, bonds_all
+        #if not checking_correct_bonds_num(atoms_all[i], mol_bonds):
+        #    raise ValueError("The number of bonds exceeds the expected limit. Please adjust the bond lenght limit")
+        
+    return molecules_db
 
 
 def xyz_reading(paths):
+    '''
+    converts the .xyz file(s) into a MolecularGraph object for each molecule
+    accounts for the cases where one file contains multiple molecules
+    :paths: a list of absolute paths to the .xyz file(s)
+    '''
 
-    #list of lists to store coordinates and atoms of molecules
-    names, coords, atoms = [], [[]], [[]]
-    #name = 
-    present_atoms = {}
+    #dictionary stores the names of all created objects (molecules)
+    molecules_db = {}
 
     for file in paths:
 
         infile = open(file, 'r')
         name = file.split('/')[-1].split('.')[0]
-        names.append(name)
         name_counter = 1
+        present_atoms = {}
 
         for line in infile.readlines():
             elements = line.split()
-            atom = elements[0]
+            if len(elements) >= 1:
+                atom = elements[0]
 
-            #new molecule is going to be stored in a new list 
-            if len(elements) == 1 and len(coords[-1]) != 0:
-                coords.append([])
-                atoms.append([])
+            #an xyz file line containing only the number of atoms means a new molecule 
+            if len(elements) == 1:
                 present_atoms = {}
-
-                names.append(name+str(name_counter))
+                
+                #add numbers to the name only if there are more than one molecule in a file
+                temp_name = name if name_counter==1 else name+str(name_counter)
                 name_counter += 1
+
+                #create the molecule object and store it in a dictionary
+                molecule = MolecularGraph(temp_name)
+                molecules_db[temp_name] = molecule
                 
             #reads out the chemical composition of the molecule
             elif len(elements) == 4 and len(atom) == 1:
@@ -61,55 +64,53 @@ def xyz_reading(paths):
                 if atom not in present_atoms:
                     present_atoms[atom] = 1
 
-                atoms[-1].append(elements[0].capitalize()+str(present_atoms[atom]))
-                coords[-1].append( [float(elements[i]) for i in range(1,4)] )
-
+                atom_name = atom.capitalize()+str(present_atoms[atom])
+                current_atom = Atom(atom_name, float(elements[1]), float(elements[2]), float(elements[3]))
+                molecule.add_atom(current_atom)
                 present_atoms[atom] += 1
         
-        infile.close()
+    return molecules_db
 
-
-    #for each molecule i, j atom's coordinates are atoms[i][j], coords[i][j]
-    return names, atoms, coords
 
 #assume atoms and coords are a list for one molecule
-def find_bonds(atoms, coords, max_bond_length=1.6):
-    bonds = []
-    num_atoms = len(atoms)
-    print(num_atoms)
-    print(atoms)
+def define_bonds(molecules_db, molecule, atom_coords, max_bond_length=1.6):
+    ''' 
+    finds bonds based on the max_bond_length threshold and adds them to the graph object
+    :molecules_db: dictionary storing the molecular graph objects and their names as keys
+    :molecule: the name of the molecule, key to the molecules_db
+    :atom_coords: the .atom attribute of MoleculeGraph object, 
+                  a list of tuples containing the atom and its coordinates 
+    '''
+    num_atoms = len(atom_coords)
+    coords = [i[1] for i in atom_coords]
+    atoms = [i[0] for i in atom_coords]
+
     for i in range(num_atoms):
         for j in range(i+1, num_atoms):
-            print("calculation for ", i, j)
             dist = calculate_distance(coords[i], coords[j])
             if dist < max_bond_length:
-                bonds.append((atoms[i], atoms[j]))
-    return bonds
+                molecules_db[molecule].add_bond(atoms[i], atoms[j])
+
+    return 
+
 
 def calculate_distance(coords1, coords2):
-    return math.sqrt( sum( (coords1[k] - coords2[k])**2 for k in range(3) ))
+    ''' 
+    calculates the 3D Euclidean distance between two atoms
+    :coords1: coordinates in 3D of the first atom
+    :coords2: coordinates in 3D of the second atom
+    '''
+    return math.sqrt( sum( (float(coords1[k]) - float(coords2[k]))**2 for k in range(3) ))
 
-def convert_to_graph():
-    pass
 
 def checking_correct_bonds_num(atoms, bonds):
     num_bonds = len(bonds)
     #adjust the maximum number of bonds per atoms
     return True
 
-#paths = ['/Users/ahryncyszyn/Desktop/molecularviz_project/alanine2.xyz']
-#path1 = paths[0]
-print("-----------------")
-#atoms, coordinates = xyz_reading(path1)
-#mol_coordinates = coordinates[0]
-#print(atoms[0])
-#print(mol_coordinates[0])
-#print(mol_coordinates[0][1])
-
-#test = xyz_to_mol_graphs('singl', 'alanine.xyz')
-#print(test[0])
-
-file_path = '/Users/ahryncyszyn/Desktop/molecularviz_project/alanine.xyz'
-file_name = file_path.split('/')[-1].split('.')[0]
-print(file_name)
-tescik = open(file_path, 'r')
+'''
+file_path = ['/Users/ahryncyszyn/Desktop/internship_code/orca_test_systems/Radical_Systems/Alanine_Threonine_and_Valine_Valine_rad.xyz']
+molecules_db = xyz_to_mol_graphs(file_path)
+for molecule in molecules_db:
+    molecules_db[molecule].plot_molecule()
+'''
