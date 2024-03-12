@@ -69,7 +69,7 @@ class MolecularGraph:
     def plot_molecule(self):
         plot_molecule(self.atoms, self.graph)
 
-
+'''
 db = []
 molecule = MolecularGraph("alanine")
 carbon = Atom("Hg1", -1, 0, -1)
@@ -81,7 +81,7 @@ molecule.add_atom(oxygen)
 molecule.add_bond("C1", "C2")
 molecule.add_bond("O1", "C1")
 print(molecule.graph)
-
+'''
 
 
 
