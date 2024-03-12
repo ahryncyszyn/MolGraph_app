@@ -66,6 +66,7 @@ class CalculationsWindow(QMainWindow):
         self.setWindowTitle("Calculations")
         self.setGeometry(100, 100, 600, 250)
 
+    #calculate the molecular mass of selected molecule
     def calculate_mass(self):
         chosen_molecule_text = self.combo_box.currentText()
         chosen_molecule_obj = self.combo_box.currentData()
@@ -74,7 +75,7 @@ class CalculationsWindow(QMainWindow):
         self.layout.addWidget(self.mass_result_label, 2, 0, 1, 2, Qt.AlignCenter)
         self.mass_result_label.setText(f'Molecular mass of {chosen_molecule_text} is {mass}')
 
-
+    #plot the selected molecule
     def visualize(self):
         try:
             chosen_molecule_obj = self.combo_box.currentData()
@@ -82,6 +83,7 @@ class CalculationsWindow(QMainWindow):
         except Exception as e:
             print("An eror occured during visualization: ", e)
 
+    #go back to menu
     def go_back(self):
         self.close()
         self.main_window.show()
