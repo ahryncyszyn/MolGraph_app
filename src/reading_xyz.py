@@ -18,9 +18,6 @@ def xyz_to_mol_graphs(path):
         atom_coords = molecules_db[molecule].atoms
         define_bonds(molecules_db, molecule, atom_coords)
 
-        #if not checking_correct_bonds_num(atoms_all[i], mol_bonds):
-        #    raise ValueError("The number of bonds exceeds the expected limit. Please adjust the bond lenght limit")
-        
     return molecules_db
 
 
@@ -68,6 +65,11 @@ def xyz_reading(paths):
                 current_atom = Atom(atom_name, float(elements[1]), float(elements[2]), float(elements[3]))
                 molecule.add_atom(current_atom)
                 present_atoms[atom] += 1
+
+            infile.close()
+
+    if len(molecules_db) == 0:
+        raise ValueError(f'Selected files did not contain any molecules! Please keep in mind that only .xyz files are supported.')
         
     return molecules_db
 
@@ -101,16 +103,3 @@ def calculate_distance(coords1, coords2):
     :coords2: coordinates in 3D of the second atom
     '''
     return math.sqrt( sum( (float(coords1[k]) - float(coords2[k]))**2 for k in range(3) ))
-
-
-def checking_correct_bonds_num(atoms, bonds):
-    num_bonds = len(bonds)
-    #adjust the maximum number of bonds per atoms
-    return True
-
-'''
-file_path = ['/Users/ahryncyszyn/Desktop/internship_code/orca_test_systems/Radical_Systems/Alanine_Threonine_and_Valine_Valine_rad.xyz']
-molecules_db = xyz_to_mol_graphs(file_path)
-for molecule in molecules_db:
-    molecules_db[molecule].plot_molecule()
-'''
