@@ -17,12 +17,13 @@ class MolecularGraph:
         self.graph = {}
         self.atoms = []
 
+    def __str__(self):
+        no_bonds = int(0.5*sum(len(value) for value in self.graph.values()))
+        return f"{self.name} molecule, with {len(self.atoms)} atoms and {no_bonds} single bonds"
 
     def add_atom(self, atom):
-        #add a function that appends in order
         self.atoms.append((atom.symbol, (atom.x, atom.y, atom.z)))
 
-    
     def add_bond(self, u, v):
         if u not in self.graph:
             self.graph[u] = []
@@ -31,7 +32,6 @@ class MolecularGraph:
 
         self.graph[u].append(v)
         self.graph[v].append(u)
-
 
     def print_graph(self):
         printed_bonds = set()
@@ -44,10 +44,8 @@ class MolecularGraph:
                     print(vertex, '->', neighbor)
                     printed_bonds.add(bond)
 
-
     def change_name(self, new_name):
         self.name = new_name
-
 
     def calculate_mol_mass(self):
         names = [atom[0] for atom in self.atoms]
@@ -65,23 +63,10 @@ class MolecularGraph:
 
         return total_mass
     
-    
     def plot_molecule(self):
         plot_molecule(self.atoms, self.graph)
 
-'''
-db = []
-molecule = MolecularGraph("alanine")
-carbon = Atom("Hg1", -1, 0, -1)
-carbon2 = Atom("C2", 0, 0, 1)
-oxygen = Atom("O1", -2, 2, 0)
-molecule.add_atom(carbon)
-molecule.add_atom(carbon2)
-molecule.add_atom(oxygen)
-molecule.add_bond("C1", "C2")
-molecule.add_bond("O1", "C1")
-print(molecule.graph)
-'''
+
 
 
 
