@@ -66,7 +66,7 @@ def xyz_reading(paths):
                 molecule.add_atom(current_atom)
                 present_atoms[atom] += 1
 
-            infile.close()
+        infile.close()
 
     if len(molecules_db) == 0:
         raise ValueError(f'Selected files did not contain any molecules! Please keep in mind that only .xyz files are supported.')
