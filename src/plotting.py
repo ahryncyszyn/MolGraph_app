@@ -8,7 +8,8 @@ def plot_molecule(atoms, bonds):
     :atoms: list of tuples containing atom names and its corresponding coordinates
     :bonds: dictionary containing each atom as a key and its neighbours as values
     '''
-
+    
+    num_atoms = len(atoms)
     atom_types = [re.search(r'[A-Za-z]{1,2}', atom[0]).group(0) for atom in atoms]
     color_map = {'C': 'grey', 'H': 'white', 'N': 'blue', 'O': 'red', 'Cl': 'green', 'F': 'green', 'Br': 'brown', 'I': 'purple', 'S': 'yellow', 'P': 'orange'}
 
